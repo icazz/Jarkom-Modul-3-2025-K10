@@ -13,6 +13,17 @@ zone "K10.com" {
 };
 EOF
 
+cat <<EOF > /etc/bind/named.conf.options
+options {
+    directory "/var/cache/bind";
+    forwarders {
+        192.216.5.2; # <-- Meneruskan ke Minastir
+    };
+    dnssec-validation auto;
+    listen-on-v6 { any; };
+};
+EOF
+
 cat <<EOF > /etc/bind/db.K10.com
 ; File Zona untuk K10.com
 $TTL    604800
@@ -32,15 +43,15 @@ ns1     IN      A       192.216.3.2     ; IP Erendis
 ns2     IN      A       192.216.3.3     ; IP Amdir
 
 ; A Records untuk Lokasi Penting (Soal 4)
-Palantir  IN    A       192.216.4.3
-Elros     IN    A       192.216.1.6
-Pharazon  IN    A       192.216.2.6
-Elendil   IN    A       192.216.1.2
-Isildur   IN    A       192.216.1.3
-Anarion   IN    A       192.216.1.4
-Galadriel IN    A       192.216.2.2
-Celeborn  IN    A       192.216.2.3
-Oropher   IN    A       192.216.2.4
+palantir  IN    A       192.216.4.3
+elros     IN    A       192.216.1.6
+pharazon  IN    A       192.216.2.6
+elendil   IN    A       192.216.1.2
+isildur   IN    A       192.216.1.3
+anarion   IN    A       192.216.1.4
+galadriel IN    A       192.216.2.2
+celeborn  IN    A       192.216.2.3
+oropher   IN    A       192.216.2.4
 EOF
 
 service bind9 restart
@@ -49,7 +60,6 @@ service bind9 status
 # in Amdir (DNS Slave)
 apt-get install bind9 -y
 
-# PERBAIKAN: Tambahkan named.conf.options
 cat <<EOF > /etc/bind/named.conf.options
 options {
     directory "/var/cache/bind";
@@ -84,5 +94,5 @@ cat /etc/resolv.conf
 apt-get update
 apt-get install -y dnsutils
 
-dig Elros.K10.com
-dig @192.216.3.3 Palantir.K10.com
+dig elros.K10.com
+dig @192.216.3.3 palantir.K10.com

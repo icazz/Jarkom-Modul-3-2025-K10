@@ -1,42 +1,44 @@
 #!/bin/bash
-# tambahkan ini dulu atau matikan server
+
+cat <<EOF > /etc/resolv.conf
 nameserver 192.216.3.2
 nameserver 192.216.3.3
-# Instalasi Worker Laravel (Elendil, Esildur, Anarion)
-# Step 1
-echo "Instalasi Nginx, Git, dan dependensi PPA"
-apt-get update
-apt-get install -y nginx git curl unzip wget lsb-release ca-certificates apt-transport-https
+nameserver 192.168.122.1
+EOF
 
-# Step 2
-echo "Menambahkan repository PHP 8.4 (Sury)..."
-wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/php.list
+echo 'Acquire::ForceIPv4 "true";' | tee /etc/apt/apt.conf.d/99force-ipv4
 
-# Step 3
-echo "Instal PHP 8.4 dan Composer..."
+echo "Langkah 2: Instalasi Nginx, Git, dan PHP 8.4..."
 apt-get update
-apt-get install -y php8.4-fpm php8.4-cli php8.4-mysql php8.4-xml php8.4-mbstring php8.4-curl php8.4-zip
+apt-get install -y nginx git php8.4-fpm php8.4-cli php8.4-mysql php8.4-xml php8.4-mbstring php8.4-curl php8.4-zip
+
+apt-get install -y curl unzip
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Step 4
-echo "Mendapatkan 'cetak biru' (clone Laravel)..."
-git config --global http.proxy $http_proxy
+rm -rf /var/www/laravel-simple-rest-api
 mkdir -p /var/www/
-# Hapus folder lama jika ada, untuk memastikan clone bersih
-rm -rf /var/www/laravel-api
-git clone https://github.com/elshiraphine/laravel-simple-rest-api.git /var/www/laravel-api
 
-# Step 5
-echo "Instal dependensi Laravel (REVISI)..."
-cd /var/www/laravel-api
+git clone https://github.com/elshiraphine/laravel-simple-rest-api.git /var/www/laravel-simple-rest-api
 
-# --- PERUBAHAN DI SINI ---
-# Kita gunakan 'update' untuk mendapatkan paket yang kompatibel dengan PHP 8.4
-echo "Menjalankan 'composer update' (ini mungkin perlu waktu)..."
+cd /var/www/laravel-simple-rest-api
+
 composer update --no-dev
 
-# Salin file .env untuk persiapan Soal 8
 cp .env.example .env
 
-echo "--- Instalasi Soal 7 Selesai ---"
+cat > .env << EOF
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=192.216.4.3
+DB_PORT=3306
+DB_DATABASE=laravel_db
+DB_USERNAME=laravel_user
+DB_PASSWORD=password123
+EOF
+
+php artisan key:generate
