@@ -29,7 +29,7 @@ MYSQL_SCRIPT
 cat <<EOF > /etc/nginx/sites-available/elendil.K10.com
 server {
     listen 8001;
-    server_name elendil.K10.com;
+    server_name elendil.K10.com elron.K10.com;
     root /var/www/laravel-simple-rest-api/public;
     index index.php;
     location / { try_files \$uri \$uri/ /index.php?\$query_string; }

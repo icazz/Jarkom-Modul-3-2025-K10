@@ -12,32 +12,34 @@ apt-get update
 apt-get install -y nginx
 
 cat <<EOF > /etc/nginx/sites-available/elros.K10.com
-# 1. Definisikan Upstream (Soal 10)
-# Algoritma Round Robin adalah default
+
+log_format upstream_custom '\$remote_addr - \$remote_user [\$time_local] '
+                             '"\$request" \$status \$body_bytes_sent '
+                             '"\$http_referer" "\$http_user_agent" '
+                             'upstream="\$upstream_addr"';
+
 upstream kesatria_numenor {
     server 192.216.1.2:8001;  # Elendil
-    server 192.216.1.3:8002;  # isildur
+    server 192.216.1.3:8002;  # Isildur
     server 192.216.1.4:8003;  # Anarion
 }
 
-# 2. Konfigurasi Server (Reverse Proxy)
 server {
     listen 80;
     server_name elros.K10.com;
 
+    access_log /var/log/nginx/elros_access.log upstream_custom;
+    error_log /var/log/nginx/elros_error.log;
+
     location / {
-        # Teruskan semua permintaan ke upstream
         proxy_pass http://kesatria_numenor;
-        
-        # Header penting untuk reverse proxy
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
     }
-
-    access_log /var/log/nginx/elros_access.log;
-    error_log /var/log/nginx/elros_error.log;
 }
 EOF
 
@@ -48,20 +50,28 @@ nginx -t
 service nginx restart
 
 # Amandil dan Gilgalad
-lynx http://elros.K10.com
+curl http://elros.K10.com
 curl http://elros.K10.com/api/airing
 
 # Tes
 # in Amandil
 # Perintah ini akan memanggil API Elros sebanyak 12 kali
-for i in {1..12}; do
-    curl -s http://elros.K10.com/api/airing > /dev/null
-done
+for i in {1..12}; do curl -s -o /dev/null http://elros.K10.com/api/airing; done
 
 # in Elros
 tail -n 100 /var/log/nginx/elros_access.log | grep "upstream" | sort | uniq -c
+cat /var/log/nginx/elros_access.log
 
 # Expected Output:
-4 upstream="http://192.216.1.2:8001/api/airing"
-4 upstream="http://192.216.1.3:8002/api/airing"
-4 upstream="http://192.216.1.4:8003/api/airing"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.4:8003"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.2:8001"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.3:8002"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.4:8003"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.2:8001"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.3:8002"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.4:8003"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.2:8001"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.3:8002"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.4:8003"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.2:8001"
+192.216.1.8 - - [01/Nov/2025:04:48:21 +0000] "GET /api/airing HTTP/1.1" 200 826 "-" "curl/8.14.1" upstream="192.216.1.3:8002"
