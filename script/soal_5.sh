@@ -34,7 +34,7 @@ $TTL    604800
 2       IN      PTR     ns1.K10.com. ; 192.216.3.2
 3       IN      PTR     ns2.K10.com. ; 192.216.3.3
 EOF
-
+# Manual
 cat <<EOF > /etc/bind/db.K10.com
 ; File Zona untuk K10.com
 $TTL    604800

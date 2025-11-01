@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# in worker (Elendil, Isildur, Anarion)
 cat <<EOF > /etc/resolv.conf
 nameserver 192.216.3.2
 nameserver 192.216.3.3

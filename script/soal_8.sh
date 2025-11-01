@@ -29,7 +29,7 @@ MYSQL_SCRIPT
 cat <<EOF > /etc/nginx/sites-available/elendil.K10.com
 server {
     listen 8001;
-    server_name elendil.K10.com elron.K10.com;
+    server_name elendil.K10.com elros.K10.com;
     root /var/www/laravel-simple-rest-api/public;
     index index.php;
     location / { try_files \$uri \$uri/ /index.php?\$query_string; }
@@ -57,11 +57,11 @@ service nginx restart
 cat <<EOF > /etc/nginx/sites-available/isildur.K10.com
 server {
     listen 8002;
-    server_name isildur.K10.com;
+    server_name isildur.K10.com elros.K10.com;
     root /var/www/laravel-simple-rest-api/public;
     index index.php;
-    location / { try_files $uri $uri/ /index.php?$query_string; }
-    location ~ \.php$ {
+    location / { try_files \$uri \$uri/ /index.php?\$query_string; }
+    location ~ \.php\$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
     }
@@ -85,11 +85,11 @@ service nginx restart
 cat <<EOF > /etc/nginx/sites-available/anarion.K10.com
 server {
     listen 8003;
-    server_name anarion.K10.com;
+    server_name anarion.K10.com elros.K10.com;
     root /var/www/laravel-simple-rest-api/public;
     index index.php;
-    location / { try_files $uri $uri/ /index.php?$query_string; }
-    location ~ \.php$ {
+    location / { try_files \$uri \$uri/ /index.php?\$query_string; }
+    location ~ \.php\$ {
         include snippets/fastcgi-php.conf;
         fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
     }
