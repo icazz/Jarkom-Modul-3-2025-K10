@@ -381,6 +381,18 @@ EOF
 
 Verifikasi: Jalankan `ip a` untuk memverifikasi bahwa ia mendapat IP di rentang yang benar (misal `192.216.1.7`).
 
+Hasil ip di Amandil
+
+![rangkaian](assets/2_Amandil.png)
+
+Hasil ip di Gilgalad
+
+![rangkaian](assets/2_Gilgalad.png)
+
+Hasil ip di Khamul
+
+![rangkaian](assets/2_Khamul.png)
+
 ### Nomor 3
 Soal:
 Untuk mengontrol arus informasi ke dunia luar (Valinor/Internet), sebuah menara pengawas, Minastir didirikan. Minastir mengatur agar semua node (kecuali Durin) hanya dapat mengirim pesan ke luar Arda setelah melewati pemeriksaan di Minastir.
@@ -495,6 +507,9 @@ EOF
 
 Verifikasi: Di client (misal `Amandil`), jalankan `dig elros.K10.com`. Hasilnya harus NOERROR dan menunjukkan `ANSWER SECTION` dengan IP `192.216.1.6`.
 
+Hasil
+![rangkaian](assets/4_success.png)
+
 ### Nomor 5
 Soal:
 Untuk memudahkan, nama alias www.<xxxx>.com dibuat untuk peta utama <xxxx>.com. Reverse PTR juga dibuat agar lokasi Erendis dan Amdir dapat dilacak dari alamat fisik tanahnya. Erendis juga menambahkan pesan rahasia (TXT record) pada petanya: "Cincin Sauron" yang menunjuk ke lokasi Elros, dan "Aliansi Terakhir" yang menunjuk ke lokasi Pharazon. Pastikan Amdir juga mengetahui pesan rahasia ini.
@@ -597,6 +612,13 @@ EOF
 
 Verifikasi: Di client (misal `Amandil`), jalankan `dig www.K10.com` (cek CNAME), `dig K10.com TXT` (cek TXT), dan `dig -x 192.216.3.2` (cek PTR).
 
+Hasil
+![rangkaian](assets/5_hm.png)
+
+![rangkaian](assets/5_txt.png)
+
+![rangkaian](assets/5_www.png)
+
 ### Nomor 6
 Soal:
 Aldarion menetapkan aturan waktu peminjaman tanah. Ia mengatur:
@@ -631,6 +653,9 @@ Verifikasi:
 - Di server `Aldarion`, jalankan `cat /var/lib/dhcp/dhcpd.leases`.
 
 - Periksa blok lease untuk `Amandil` (selisih `starts` dan `ends` harus 1800 detik) dan `Gilgalad` (selisih 600 detik).
+
+Hasil
+![rangkaian](assets/6_kofikk.png)
 
 ### Nomor 7
 Soal:
@@ -684,6 +709,13 @@ EOF
 
 php artisan key:generate
 ```
+
+Hasil
+![rangkaian](assets/7_Anarion.png)
+
+![rangkaian](assets/7_Elendil.png)
+
+![rangkaian](assets/7_Esildur.png)
 
 ### Nomor 8
 Soal:
@@ -751,6 +783,9 @@ service php8.4-fpm restart
 service nginx restart
 ```
 
+Hasil
+![rangkaian](assets/8_result.png)
+
 ### Nomor 9
 Soal:
 Pastikan setiap benteng berfungsi secara mandiri. Dari dalam node client masing-masing, gunakan lynx untuk melihat halaman utama Laravel dan curl /api/airing untuk memastikan mereka bisa mengambil data dari Palantir.
@@ -766,6 +801,8 @@ lynx http://isildur.K10.com:8002
 lynx http://anarion.K10.com:8003
 ```
 
+![rangkaian](assets/9_lynx.png)
+
 - Tes API
 ```sh
 curl http://elendil.K10.com:8001/api/airing
@@ -774,6 +811,8 @@ curl http://isildur.K10.com:8002/api/airing
 
 curl http://anarion.K10.com:8003/api/airing
 ```
+
+![rangkaian](assets/9_api.png)
 
 ### Nomor 10
 Soal:
@@ -824,4 +863,5 @@ Di `Amandil`, kirim 12 request:
 Cek di Elros
 `cat /var/log/nginx/elros_access.log`
 
-Output:
+Hasil
+![rangkaian](assets/10_result.png)
