@@ -30,6 +30,7 @@
 # Gilgalad    DHCP
 # Amandil     DHCP
 # Khamul      DHCP (fixed address)
+
 # Durin (Router/DHCP Relay)
 
 cat <<EOF > /etc/network/interfaces
@@ -68,7 +69,7 @@ iface eth5 inet static
     netmask 255.255.255.0
 EOF
 
-cat <<EOF > /etc/.bashrc
+cat <<EOF > /root/.bashrc
 apt-get update
 apt-get install -y iptables
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE

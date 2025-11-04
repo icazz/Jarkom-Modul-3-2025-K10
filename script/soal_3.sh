@@ -4,7 +4,6 @@ echo "Menginstal BIND9..."
 apt-get update
 apt-get install -y bind9
 
-echo "Mengkonfigurasi BIND9 sebagai Forwarder-Only..."
 cat <<EOF > /etc/bind/named.conf.options
 options {
     directory "/var/cache/bind";

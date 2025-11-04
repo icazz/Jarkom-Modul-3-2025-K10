@@ -86,9 +86,6 @@ apt-get install -y isc-dhcp-relay
 EOF
 
 cat <<EOF > /etc/default/isc-dhcp-relay
-# Defaults for isc-dhcp-relay (Durin)
-
-# Arahkan ke IP baru Aldarion di Subnet 4
 SERVERS="192.216.4.2"
 INTERFACES="eth1 eth2 eth3 eth4 eth5"
 EOF
