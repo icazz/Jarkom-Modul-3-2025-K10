@@ -508,6 +508,7 @@ EOF
 Verifikasi: Di client (misal `Amandil`), jalankan `dig elros.K10.com`. Hasilnya harus NOERROR dan menunjukkan `ANSWER SECTION` dengan IP `192.216.1.6`.
 
 Hasil
+
 ![rangkaian](assets/4_success.png)
 
 ### Nomor 5
@@ -613,6 +614,7 @@ EOF
 Verifikasi: Di client (misal `Amandil`), jalankan `dig www.K10.com` (cek CNAME), `dig K10.com TXT` (cek TXT), dan `dig -x 192.216.3.2` (cek PTR).
 
 Hasil
+
 ![rangkaian](assets/5_hm.png)
 
 ![rangkaian](assets/5_txt.png)
@@ -655,6 +657,7 @@ Verifikasi:
 - Periksa blok lease untuk `Amandil` (selisih `starts` dan `ends` harus 1800 detik) dan `Gilgalad` (selisih 600 detik).
 
 Hasil
+
 ![rangkaian](assets/6_kofikk.png)
 
 ### Nomor 7
@@ -711,6 +714,7 @@ php artisan key:generate
 ```
 
 Hasil
+
 ![rangkaian](assets/7_Anarion.png)
 
 ![rangkaian](assets/7_Elendil.png)
@@ -784,6 +788,7 @@ service nginx restart
 ```
 
 Hasil
+
 ![rangkaian](assets/8_result.png)
 
 ### Nomor 9
@@ -864,4 +869,5 @@ Cek di Elros
 `cat /var/log/nginx/elros_access.log`
 
 Hasil
+
 ![rangkaian](assets/10_result.png)
