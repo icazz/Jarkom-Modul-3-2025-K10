@@ -11,7 +11,7 @@ authoritative;
 log-facility local7;
 
 # PERBAIKAN: Menggunakan IP DNS yang benar (dari Soal 4)
-option domain-name-servers 192.216.3.2, 192.216.3.3;
+option domain-name-servers 192.216.5.2;
 
 # PERBAIKAN: Menerapkan max-lease-time dari Soal 6 (1 jam)
 max-lease-time 3600; 

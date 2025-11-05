@@ -9,7 +9,7 @@ options {
     directory "/var/cache/bind";
 
     # Izinkan query dari semua subnet internal kita
-    allow-query { 192.216.0.0/16; };
+    allow-query { any; };
     
     # Teruskan SEMUA query ke DNS Internet (misal: NAT GNS3)
     forwarders {

@@ -25,7 +25,7 @@
 # Palantir    192.216.4.3
 # Narvi       192.216.4.4
 
-# Minastri    192.216.5.2
+# Minastir    192.216.5.2
 
 # Gilgalad    DHCP
 # Amandil     DHCP

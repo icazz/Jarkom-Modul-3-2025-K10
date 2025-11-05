@@ -19,7 +19,7 @@ EOF
 
 cat <<EOF > /etc/bind/db.192.216.3
 ; File Zona Reverse PTR untuk 192.216.3.x
-$TTL    604800
+\$TTL    604800
 @       IN      SOA     ns1.K10.com. root.K10.com. (
                         1         ; Serial (Serial baru untuk zona baru)
                    604800         ; Refresh
@@ -34,10 +34,10 @@ $TTL    604800
 2       IN      PTR     ns1.K10.com. ; 192.216.3.2
 3       IN      PTR     ns2.K10.com. ; 192.216.3.3
 EOF
-# Manual
+
 cat <<EOF > /etc/bind/db.K10.com
 ; File Zona untuk K10.com
-$TTL    604800
+\$TTL    604800
 @       IN      SOA     ns1.K10.com. root.K10.com. (
                         3         ; Serial (NAIKKAN DARI 2)
                    604800         ; Refresh
@@ -64,7 +64,7 @@ Oropher   IN    A       192.216.2.4
 
 ; --- TAMBAHAN SOAL 5 ---
 ; Alias "www"
-www       IN      CNAME   elros.K10.com.
+www       IN      CNAME   ns1.K10.com.
 
 ; TXT Records "pesan rahasia"
 @         IN      TXT     "Cincin Sauron menunjuk ke Elros"

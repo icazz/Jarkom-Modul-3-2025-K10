@@ -791,6 +791,54 @@ Hasil
 
 ![rangkaian](assets/8_result.png)
 
+#### REVISI Nomor 8
+
+`Buat agar akses web hanya bisa melalui domain nama, tidak bisa melalui ip.`
+
+Revisi code pada 3 worker, berikut contoh di worker elendil:
+
+```sh
+cat <<EOF > /etc/nginx/sites-available/elendil.K10.com
+server {
+    listen 8001 default_server;
+    server_name _;
+    return 404;
+}
+server {
+    listen 8001;
+    server_name elendil.K10.com elros.K10.com;
+    root /var/www/laravel-simple-rest-api/public;
+    index index.php;
+    location / { try_files \$uri \$uri/ /index.php?\$query_string; }
+    location ~ \.php\$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.4-fpm.sock;
+    }
+    location ~ /\.ht { deny all; }
+    error_log /var/log/nginx/laravel_error.log;
+    access_log /var/log/nginx/laravel_access.log;
+}
+EOF
+```
+
+Jika dicoba menggunakan ip hasilnya 404 atau error
+
+- Elendil
+
+![rangkaian](assets/10_elendil_gagal.png)
+
+- Isildur
+
+![rangkaian](assets/10_isildur_gagal.png)
+
+- Anarion
+
+![rangkaian](assets/10_anarion_gagal.png)
+
+Untuk test menggunakan lynx, hasilnya error seperti ini:
+
+![rangkaian](assets/10_ip_gagal.png)
+
 ### Nomor 9
 Soal:
 Pastikan setiap benteng berfungsi secara mandiri. Dari dalam node client masing-masing, gunakan lynx untuk melihat halaman utama Laravel dan curl /api/airing untuk memastikan mereka bisa mengambil data dari Palantir.

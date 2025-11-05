@@ -3,6 +3,7 @@
 cat <<EOF > /etc/resolv.conf
 nameserver 192.216.3.2
 nameserver 192.216.3.3
+nameserver 192.216.5.2
 nameserver 192.168.122.1
 EOF
 
@@ -27,6 +28,11 @@ MYSQL_SCRIPT
 
 # in worker (Elendil)
 cat <<EOF > /etc/nginx/sites-available/elendil.K10.com
+server {
+    listen 8001 default_server;
+    server_name _;
+    return 404;
+}
 server {
     listen 8001;
     server_name elendil.K10.com elros.K10.com;
@@ -56,6 +62,11 @@ service nginx restart
 # in worker (Isildur)
 cat <<EOF > /etc/nginx/sites-available/isildur.K10.com
 server {
+    listen 8002 default_server;
+    server_name _;
+    return 404;
+}
+server {
     listen 8002;
     server_name isildur.K10.com elros.K10.com;
     root /var/www/laravel-simple-rest-api/public;
@@ -83,6 +94,11 @@ service nginx restart
 
 # in worker (Anarion)
 cat <<EOF > /etc/nginx/sites-available/anarion.K10.com
+server {
+    listen 8003 default_server;
+    server_name _;
+    return 404; 
+}
 server {
     listen 8003;
     server_name anarion.K10.com elros.K10.com;
